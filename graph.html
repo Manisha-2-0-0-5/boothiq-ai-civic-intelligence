@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #080d18;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "white"}, "id": "V001 - Ramesh Kumar", "label": "V001 - Ramesh Kumar", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Booth B01", "label": "Booth B01", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "PM-KISAN", "label": "PM-KISAN", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V002 - Sunita Devi", "label": "V002 - Sunita Devi", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V003 - Arjun Sharma", "label": "V003 - Arjun Sharma", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V004 - Meena Patel", "label": "V004 - Meena Patel", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Fasal Bima", "label": "Fasal Bima", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V005 - Suresh Yadav", "label": "V005 - Suresh Yadav", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Old Age Pension", "label": "Old Age Pension", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V006 - Priya Singh", "label": "V006 - Priya Singh", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Booth B02", "label": "Booth B02", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V007 - Mohan Lal", "label": "V007 - Mohan Lal", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V008 - Kavita Verma", "label": "V008 - Kavita Verma", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Ujjwala Yojana", "label": "Ujjwala Yojana", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V009 - Deepak Mishra", "label": "V009 - Deepak Mishra", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "NSP Scholarship", "label": "NSP Scholarship", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V010 - Lata Gupta", "label": "V010 - Lata Gupta", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Ayushman Bharat", "label": "Ayushman Bharat", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V011 - Vikram Rawat", "label": "V011 - Vikram Rawat", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "Booth B03", "label": "Booth B03", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V012 - Anjali Tiwari", "label": "V012 - Anjali Tiwari", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V013 - Ravi Shankar", "label": "V013 - Ravi Shankar", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V014 - Geeta Rani", "label": "V014 - Geeta Rani", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "V015 - Ashok Pandey", "label": "V015 - Ashok Pandey", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "V001 - Ramesh Kumar", "to": "Booth B01"}, {"from": "V001 - Ramesh Kumar", "to": "PM-KISAN"}, {"from": "Booth B01", "to": "V002 - Sunita Devi"}, {"from": "Booth B01", "to": "V003 - Arjun Sharma"}, {"from": "Booth B01", "to": "V004 - Meena Patel"}, {"from": "Booth B01", "to": "V005 - Suresh Yadav"}, {"from": "PM-KISAN", "to": "V004 - Meena Patel"}, {"from": "PM-KISAN", "to": "V011 - Vikram Rawat"}, {"from": "PM-KISAN", "to": "V014 - Geeta Rani"}, {"from": "V004 - Meena Patel", "to": "Fasal Bima"}, {"from": "V005 - Suresh Yadav", "to": "Old Age Pension"}, {"from": "Old Age Pension", "to": "V010 - Lata Gupta"}, {"from": "V006 - Priya Singh", "to": "Booth B02"}, {"from": "Booth B02", "to": "V007 - Mohan Lal"}, {"from": "Booth B02", "to": "V008 - Kavita Verma"}, {"from": "Booth B02", "to": "V009 - Deepak Mishra"}, {"from": "Booth B02", "to": "V010 - Lata Gupta"}, {"from": "V008 - Kavita Verma", "to": "Ujjwala Yojana"}, {"from": "V009 - Deepak Mishra", "to": "NSP Scholarship"}, {"from": "V010 - Lata Gupta", "to": "Ayushman Bharat"}, {"from": "V011 - Vikram Rawat", "to": "Booth B03"}, {"from": "Booth B03", "to": "V012 - Anjali Tiwari"}, {"from": "Booth B03", "to": "V013 - Ravi Shankar"}, {"from": "Booth B03", "to": "V014 - Geeta Rani"}, {"from": "Booth B03", "to": "V015 - Ashok Pandey"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
